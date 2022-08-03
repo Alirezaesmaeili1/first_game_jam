@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed ; 
-    public float smoothness ;
+    public float speed , smoothness , shootSpeed , bulletSpeed ; 
     public Joystick joystick;
-    public float shootSpeed ;
     public GameObject bullet ;
-    public float bulletSpeed ;
     private float _holdShootingspeed ;
-
-
     public Transform[] shootingposes;
 
    
