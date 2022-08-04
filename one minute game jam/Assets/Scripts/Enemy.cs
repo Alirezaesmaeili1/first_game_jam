@@ -8,10 +8,8 @@ public class Enemy : MonoBehaviour
     [Header("Global Settings")]
     public float health = 1  , speed ;
     public Enemytype enemytype ; 
-
     [Header("t setting")]
     public Vector2 NewPosition ; 
-
     [Header("path Settings")]
     public bool Moveing = false; 
     public float SpeedMoveing =3f; 
@@ -19,8 +17,6 @@ public class Enemy : MonoBehaviour
     public Transform[] MovePoint; 
     private List<Vector3> _WayPoint = new List<Vector3>();
     private float _delaySpawn ;
-
-   
     public void init(EnemyWayPoint enemywaypoint , float delaySpead)
     {
         StartPoint=enemywaypoint.StartPoint;
@@ -30,14 +26,13 @@ public class Enemy : MonoBehaviour
         _delaySpawn=delaySpead;
         switch(enemytype)
         {
-            case Enemytype.crap:
-                CrapPath();
+            case Enemytype.Crap:
+                Path();
                 break ;
             
         }
-        
     }
-    void CrapPath()
+    void Path()
     {
         if(MovePoint.Length>0){
             foreach (Transform movepoint in MovePoint)
@@ -66,6 +61,7 @@ public class Enemy : MonoBehaviour
     }
     void DieEnemy ()
     {
+        transform.DOKill();
         Destroy(gameObject);
     }
 }

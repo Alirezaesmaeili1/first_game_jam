@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class GameManager : MonoBehaviour
 {
    public static GameManager I ;
-   public List<GameObject> EnemycarpPrefab = new List<GameObject>();
+   public List<GameObject> EnemyPrefab = new List<GameObject>();
    public List<EnemyWayPoint> enemyWayPoints = new List<EnemyWayPoint>();
    public List<Transform> Chunks = new List<Transform>();
    private int ChunksIndex = 0 ;
@@ -13,7 +12,7 @@ public class GameManager : MonoBehaviour
    {
     MakeChunk ();
    }
-    private void Awake()
+   private void Awake()
     {
         if (I!= this)
         {
@@ -34,8 +33,20 @@ public class GameManager : MonoBehaviour
    }
    void MakeEnemy(Enemytype enemytype , EnemyWayPointType enemyWayPointType  ,float delaySpead)
    {
-        GameObject enemy = Instantiate(EnemycarpPrefab[1],enemyWayPoints[0].StartPoint.position,Quaternion.identity);
-        enemy.GetComponent<Enemy>().init(enemyWayPoints[0],delaySpead);
+      GameObject enemybyType = null ; 
+      switch (enemytype)
+      {
+        case Enemytype.Crap:
+            enemybyType = EnemyPrefab[0];
+            break;
+        case Enemytype.Seashell:
+            enemybyType = EnemyPrefab[1];
+            break;
+      }
+      EnemyWayPoint _enemyWayPoint = enemyWayPoints.Find(x => x.type== enemyWayPointType);
+
+      GameObject enemy = Instantiate(enemybyType ,_enemyWayPoint.StartPoint.position,Quaternion.identity);
+      enemy.GetComponent<Enemy>().init(_enemyWayPoint,delaySpead);
    }
 }
 public enum EnemyWayPointType
@@ -47,9 +58,9 @@ public enum EnemyWayPointType
 }
 public enum Enemytype
 {
-    fish ,
-    crap ,
-    squid ,
+    Fish ,
+    Crap ,
+    Squid ,
     Seashell ,
 }
 
