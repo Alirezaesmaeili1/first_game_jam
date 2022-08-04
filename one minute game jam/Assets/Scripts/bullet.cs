@@ -7,7 +7,8 @@ public class bullet : MonoBehaviour
     public float damage ; 
     private float _speed  ; 
 
-    public void init(float speed ){
+    public void init(float speed )
+    {
         this._speed = speed ;
         Destroy(gameObject,5f);
     }
@@ -17,10 +18,7 @@ public class bullet : MonoBehaviour
         {
             other.GetComponent<Enemy>().TakeDamage(damage);
             Destroy(gameObject); 
-
         } 
-
-        
     }
     void Update()
     {

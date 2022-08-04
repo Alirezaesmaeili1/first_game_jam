@@ -21,7 +21,6 @@ public class camera : MonoBehaviour
         Vector3 newPos = PlayerrTransform.position + cmOffset;
         newPos.y = Mathf.Clamp(newPos.y, 0, 0);
         newPos.x = Mathf.Clamp(newPos.x, -7.2f, 7.2f);
-
         transform.position = Vector3.Slerp(transform.position, newPos, smoothness);
     }
 }

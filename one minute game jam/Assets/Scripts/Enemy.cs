@@ -14,35 +14,29 @@ public class Enemy : MonoBehaviour
 
     [Header("path Settings")]
     public bool Moveing = false; 
+    public float SpeedMoveing =3f; 
     public Transform StartPoint , EndPoint;
     public Transform[] MovePoint; 
     private List<Vector3> _WayPoint = new List<Vector3>();
+    private float _delaySpawn ;
 
    
-    private void Start()
+    public void init(EnemyWayPoint enemywaypoint , float delaySpead)
     {
-        init();
-        CrapPath();
-       
-    }
-
-    
-    void init()
-    {
+        StartPoint=enemywaypoint.StartPoint;
+        MovePoint=enemywaypoint.MovePoint;
+        EndPoint=enemywaypoint.EndPoint;
         transform.position=StartPoint.position;
+        _delaySpawn=delaySpead;
         switch(enemytype)
         {
             case Enemytype.crap:
-                CrapType();
+                CrapPath();
                 break ;
-
+            
         }
+        
     }
-
-    void CrapType(){
-        transform.DOMove(NewPosition , speed);
-    }
-
     void CrapPath()
     {
         if(MovePoint.Length>0){
@@ -50,11 +44,17 @@ public class Enemy : MonoBehaviour
             {
                 _WayPoint.Add(movepoint.position);
             }
-
         }
         _WayPoint.Add(EndPoint.position); 
-        transform.DOPath(_WayPoint.ToArray(),3f,PathType.CatmullRom,PathMode.Sidescroller2D).SetDelay(1f).SetEase(Ease.Linear);
-        
+        transform.DOPath(_WayPoint.ToArray(),SpeedMoveing,PathType.CatmullRom,PathMode.Sidescroller2D)
+        .SetDelay(_delaySpawn)
+        .SetEase(Ease.Linear)
+        .SetLookAt(0.01f)
+        .SetSpeedBased(true);
+        if (transform.position == EndPoint.position)
+        {
+            Destroy(gameObject);
+        }
     }
     public void TakeDamage (float damage)
     {
@@ -64,18 +64,8 @@ public class Enemy : MonoBehaviour
             DieEnemy();
         }
     }
-
     void DieEnemy ()
     {
         Destroy(gameObject);
-
     }
-
-    
-
-}
-public enum Enemytype
-{
-    fish , crap , squid , Seashell 
-
 }

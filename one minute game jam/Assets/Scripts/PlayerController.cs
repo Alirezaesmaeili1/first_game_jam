@@ -4,29 +4,30 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed , smoothness , shootSpeed , bulletSpeed ; 
+    public float speed , smoothness , shootSpeed , bulletSpeed , damage ;
     public Joystick joystick;
     public GameObject bullet ;
     private float _holdShootingspeed ;
     public Transform[] shootingposes;
-
+    [SerializeField] KeyCode your_key;
    
 
     private void Start() {
        init();       
     }
- 
     
     void Update()
     {
        movement();
-       shooting();
+       if (Input.GetKey(your_key))
+       {
+           shooting();
+       }
     }
 
     void init(){
         _holdShootingspeed = shootSpeed ;
     }
-
     void shooting(){
         if(shootingposes.Length  <= 0) return ;
         _holdShootingspeed -= Time.deltaTime ;
@@ -38,9 +39,15 @@ public class PlayerController : MonoBehaviour
                 bulletClone.GetComponent<bullet>().init(bulletSpeed);
 
             }
-
             _holdShootingspeed = shootSpeed ;
         }
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            other.GetComponent<Enemy>().TakeDamage(damage);
+        } 
     }
 
     
