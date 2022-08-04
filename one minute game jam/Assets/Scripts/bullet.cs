@@ -11,6 +11,17 @@ public class bullet : MonoBehaviour
         this._speed = speed ;
         Destroy(gameObject,5f);
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            other.GetComponent<Enemy>().TakeDamage(damage);
+            Destroy(gameObject); 
+
+        } 
+
+        
+    }
     void Update()
     {
         transform.Translate(Vector2.right * _speed * Time.deltaTime);
